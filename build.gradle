@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        versionElasticsearch = "5.2.2"
+        versionElasticsearch = "5.3.2"
     }
     repositories {
         maven { url 'http://repox.gtan.com:8078' }
@@ -64,7 +64,7 @@ project(':es-plugin') {
             exclude group: "org.apache.lucene"
         }
         compile("org.elasticsearch:elasticsearch:$versionElasticsearch")
-        testCompile("org.elasticsearch.test:framework:$versionElasticsearch")
+        testCompile("org.elasticsearch.test:framework:5.3.1")
 
         includeJars(ccLibs)
         includeJars("com.hankcs.nlp:hanlp-lucene-plugin:1.1.2") {

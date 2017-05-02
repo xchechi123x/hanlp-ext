@@ -7,17 +7,16 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 
 public class HanLPAnalyzerProvider extends AbstractIndexAnalyzerProvider<Analyzer> {
-
-    private final Analyzer analyzer;
+    private boolean enablePorterStemming;
 
     public HanLPAnalyzerProvider(IndexSettings indexSettings, Environment env, String name, Settings settings) {
         super(indexSettings, name, settings);
-        analyzer = new HanLPAnalyzer();
+        this.enablePorterStemming = settings.getAsBoolean("enablePorterStemming", false);
     }
 
     @Override
     public Analyzer get() {
-        return analyzer;
+        return new HanLPAnalyzer(enablePorterStemming);
     }
 
 }

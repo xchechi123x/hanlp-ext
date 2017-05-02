@@ -9,27 +9,23 @@ import org.elasticsearch.indices.analysis.AnalysisModule;
 import org.elasticsearch.plugins.AnalysisPlugin;
 import org.elasticsearch.plugins.Plugin;
 
-import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public class AnalysisHanLPPlugin extends Plugin implements AnalysisPlugin {
-    static {
-//        System.out.println(System.getProperties().get("java.class.path"));
-        Properties p = new Properties();
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try {
-            p.load(loader.getResourceAsStream("hanlp.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        p.list(System.out);
-    }
-
     @Override
     public Map<String, AnalysisModule.AnalysisProvider<TokenizerFactory>> getTokenizers() {
-        return Collections.singletonMap("hanlp", HanLPTokenizerFactory::new);
+        HashMap<String, AnalysisModule.AnalysisProvider<TokenizerFactory>> tokenizers = new HashMap<>();
+        tokenizers.put("hanlp", HanLPTokenizerFactory::createStandard);
+        tokenizers.put("hanlp-standard", HanLPTokenizerFactory::createStandard);
+        tokenizers.put("hanlp-nlp", HanLPTokenizerFactory::createNLP);
+        tokenizers.put("hanlp-index", HanLPTokenizerFactory::createIndex);
+        tokenizers.put("hanlp-nshort", HanLPTokenizerFactory::createNShort);
+        tokenizers.put("hanlp-shortest", HanLPTokenizerFactory::createShortest);
+        tokenizers.put("hanlp-crf", HanLPTokenizerFactory::createCRF);
+        tokenizers.put("hanlp-speed", HanLPTokenizerFactory::createSpeed);
+        return tokenizers;
     }
 
     @Override

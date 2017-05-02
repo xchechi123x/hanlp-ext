@@ -1,5 +1,17 @@
 # elasticsearch-hanlp
 
+当前支持分词类型：
+
+- hanlp / hanlp-standard: 标准分词
+- hanlp-nlp: NLP分词
+- hanlp-index: 索引分词
+- hanlp-nshort: N-最短分词
+- hanlp-shortest: 最短路分词
+- hanlp-crf: CRF分词
+- hanlp-speed: 极速词典分词
+
+## 编译、安装、测试
+
 文件路径按着自己的安装路径设置
 
 1. 编译、打包插件
