@@ -77,7 +77,7 @@ project(':es-plugin') {
     test.enabled = false
 
     task buildPluginZip(type: Zip) {
-        baseName = 'elasticsearch-analysis-hanlp'
+        baseName = 'elasticsearch-hanlp'
         from files(libsDir)
         from 'src/main/universal'
         from configurations.includeJars.collect { it }
