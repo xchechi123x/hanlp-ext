@@ -97,3 +97,5 @@ npm-debug.log
 !/gradle/wrapper/gradle-wrapper.jar
 !/lib/hanlp-1.3.2.jar
 !/lib/hanlp-1.3.2-sources.jar
+!/lib/hanlp-1.3.4-sources.jar
+!/lib/hanlp-1.3.4.jar

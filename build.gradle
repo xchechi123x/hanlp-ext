@@ -30,7 +30,7 @@ project(':common') {
     dependencies {
         compile ccLibs
         compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
-        compile group: 'com.hankcs', name: 'hanlp', version: 'portable-1.3.4'
+//        compile group: 'com.hankcs', name: 'hanlp', version: 'portable-1.3.4'
     }
 }
 

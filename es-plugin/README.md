@@ -23,19 +23,19 @@ gradle -p es-plugin jar buildPluginZip
 2. 使用命令安装插件
 
 ```
-ES_HOME/bin/elasticsearch-plugin install file:///home/hldev/hldata/data/hanlp-ext/es-plugin/build/distributions/elasticsearch-analysis-hanlp-5.3.3.zip
+ES_HOME/bin/elasticsearch-plugin install file:///home/hldev/hldata/data/hanlp-ext/es-plugin/build/distributions/elasticsearch-hanlp-5.3.3.zip
 ```
     
 3. 修改 `ES_HOME/config` 目录下的 `jvm.options` 文件添加一行
     
 ```
--Djava.security.policy=file:///你的ES目录/plugins/elasticsearch-analysis-hanlp/plugin-security.policy
+-Djava.security.policy=file:///你的ES目录/plugins/elasticsearch-hanlp/plugin-security.policy
 ```
     
 4. 最后修改ES/bin/elasticsearch.in.sh文件将 ES_CLASSPATH修改为
     
 ```
-ES_CLASSPATH="$ES_HOME/lib/elasticsearch-5.2.2.jar:$ES_HOME/lib/*:$ES_HOME/plugins/elasticsearch-analysis-hanlp/"
+ES_CLASSPATH="$ES_HOME/lib/elasticsearch-5.3.3.jar:$ES_HOME/lib/*:$ES_HOME/plugins/elasticsearch-hanlp/"
 ```
    
 最后运行elasticsearch即可
