@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        versionElasticsearch = "5.3.3"
+        versionElasticsearch = "5.4.3"
     }
     repositories {
         maven { url 'http://repox.gtan.com:8078' }
@@ -29,8 +29,8 @@ project(':common') {
 
     dependencies {
         compile ccLibs
+        compile("org.elasticsearch:elasticsearch:$versionElasticsearch")
         compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
-//        compile group: 'com.hankcs', name: 'hanlp', version: 'portable-1.3.4'
     }
 }
 
@@ -55,23 +55,24 @@ project(':es-plugin') {
 
     configurations {
         includeJars
+//        compile.exclude group: 'org.elasticsearch', module: 'elasticsearch'
+//        compile.exclude group: 'org.apache.lucene'
     }
 
     dependencies {
         compile project(':common')
 
-        compile("com.hankcs.nlp:hanlp-lucene-plugin:1.1.2") {
-            exclude group: "com.hankcs", module: "hanlp"
-            exclude group: "org.apache.lucene"
-        }
-        compile("org.elasticsearch:elasticsearch:$versionElasticsearch")
+//        compile("com.hankcs.nlp:hanlp-lucene-plugin:1.1.2") {
+//            exclude group: "com.hankcs", module: "hanlp"
+//            exclude group: "org.apache.lucene"
+//        }
         testCompile("org.elasticsearch.test:framework:$versionElasticsearch")
 
         includeJars(ccLibs)
-        includeJars("com.hankcs.nlp:hanlp-lucene-plugin:1.1.2") {
-            exclude group: "com.hankcs", module: "hanlp"
-            exclude group: "org.apache.lucene"
-        }
+//        includeJars("com.hankcs.nlp:hanlp-lucene-plugin:1.1.2") {
+//            exclude group: "com.hankcs", module: "hanlp"
+//            exclude group: "org.apache.lucene"
+//        }
         includeJars(project(':common'))
     }
 
@@ -81,7 +82,22 @@ project(':es-plugin') {
         baseName = 'elasticsearch-hanlp'
         from files(libsDir)
         from 'src/main/universal'
-        from configurations.includeJars.collect { it }
+        from configurations.includeJars
+                .filter { file ->
+                    String path = file.toString()
+                    !(path.contains("org.apache.lucene")
+                            || path.contains("org.elasticsearch")
+                            || path.contains("com.fasterxml.jackson")
+                            || path.contains("net.sf.jopt-simple")
+                            || path.contains("com.carrotsearch")
+                            || path.contains("joda-time")
+                            || path.contains("org.yaml")
+                            || path.contains("com.tdunning")
+                            || path.contains("org.hdrhistogram")
+                    )
+                }
+                .collect { it }
+//        from configurations.includeJars.collect { it }
         into 'elasticsearch'
     }
 
