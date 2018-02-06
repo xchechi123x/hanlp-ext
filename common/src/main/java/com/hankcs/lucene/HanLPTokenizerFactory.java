@@ -2,6 +2,7 @@ package com.hankcs.lucene;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.IOUtil;
+import com.hankcs.hanlp.dictionary.stopword.StopWordDictionary;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.TraditionalChineseTokenizer;
@@ -14,7 +15,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class HanLPTokenizerFactory extends TokenizerFactory {
+public class HanLPTokenizerFactory extends TokenizerFactory
+{
     private boolean enableIndexMode;
     private boolean enablePorterStemming;
     private boolean enableNumberQuantifierRecognize;
@@ -32,7 +34,8 @@ public class HanLPTokenizerFactory extends TokenizerFactory {
      *
      * @param args 通过这个Map保存xml中的配置项
      */
-    public HanLPTokenizerFactory(Map<String, String> args) {
+    public HanLPTokenizerFactory(Map<String, String> args)
+    {
         super(args);
         enableIndexMode = getBoolean(args, "enableIndexMode", true);
         enablePorterStemming = getBoolean(args, "enablePorterStemming", false);
@@ -44,23 +47,26 @@ public class HanLPTokenizerFactory extends TokenizerFactory {
         enableNameRecognize = getBoolean(args, "enableNameRecognize", false);
         enablePlaceRecognize = getBoolean(args, "enablePlaceRecognize", false);
         enableTraditionalChineseMode = getBoolean(args, "enableTraditionalChineseMode", false);
-        HanLP.Config.Normalization = getBoolean(args, "enableNormalization", HanLP.Config.Normalization);
+        HanLP.Config.Normalization  = getBoolean(args, "enableNormalization", HanLP.Config.Normalization);
         Set<String> customDictionaryPathSet = getSet(args, "customDictionaryPath");
-        if (customDictionaryPathSet != null) {
+        if (customDictionaryPathSet != null)
+        {
             HanLP.Config.CustomDictionaryPath = customDictionaryPathSet.toArray(new String[0]);
         }
         String stopWordDictionaryPath = get(args, "stopWordDictionaryPath");
-        if (stopWordDictionaryPath != null) {
+        if (stopWordDictionaryPath != null)
+        {
             stopWordDictionary = new TreeSet<>();
             stopWordDictionary.addAll(IOUtil.readLineListWithLessMemory(stopWordDictionaryPath));
         }
         if (getBoolean(args, "enableDebug", false)) {
-            HanLP.Config.enableDebug();
+          HanLP.Config.enableDebug();
         }
     }
 
     @Override
-    public Tokenizer create(AttributeFactory factory) {
+    public Tokenizer create(AttributeFactory factory)
+    {
         Segment segment = HanLP.newSegment().enableOffset(true).enableIndexMode(enableIndexMode)
                 .enableNameRecognize(enableNameRecognize)
                 .enableNumberQuantifierRecognize(enableNumberQuantifierRecognize)
@@ -69,13 +75,16 @@ public class HanLPTokenizerFactory extends TokenizerFactory {
                 .enableJapaneseNameRecognize(enableJapaneseNameRecognize)
                 .enableOrganizationRecognize(enableOrganizationRecognize)
                 .enablePlaceRecognize(enablePlaceRecognize);
-        if (enableTraditionalChineseMode) {
+        if (enableTraditionalChineseMode)
+        {
             segment.enableIndexMode(false);
             Segment inner = segment;
             TraditionalChineseTokenizer.SEGMENT = inner;
-            segment = new Segment() {
+            segment = new Segment()
+            {
                 @Override
-                protected List<Term> segSentence(char[] sentence) {
+                protected List<Term> segSentence(char[] sentence)
+                {
                     List<Term> termList = TraditionalChineseTokenizer.segment(new String(sentence));
                     return termList;
                 }
